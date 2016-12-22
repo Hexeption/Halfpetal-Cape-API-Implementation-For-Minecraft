@@ -13,6 +13,7 @@ public class Capes {
      * To implement this into your client add Capes.getCapes(profile, map) in the SkinManager class
      * inside the (loadProfileTextures) below (final Map<Type, MinecraftProfileTexture> map = Maps.<Type, MinecraftProfileTexture>newHashMap();)
      */
+    
     /**
      * Downloads the Cape image from the Halfpetal Cape API and adds it to the skin map.
      *
