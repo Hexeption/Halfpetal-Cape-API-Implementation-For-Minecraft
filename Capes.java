@@ -25,7 +25,7 @@ public class Capes {
         try {
             String formattedUUID = formatUUID(gameProfile.getId());
 
-            skinMap.put(MinecraftProfileTexture.Type.CAPE, new MinecraftProfileTexture("http://capes.halfpetal.com/api/v1/" + formattedUUID + "/getCape", null));
+            skinMap.put(MinecraftProfileTexture.Type.CAPE, new MinecraftProfileTexture("https://capesapi.com/api/v1/" + formattedUUID + "/getCape", null));
 
         } catch (Exception e) {
             e.printStackTrace();
