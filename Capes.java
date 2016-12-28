@@ -14,6 +14,9 @@ public class Capes {
      * inside the (loadProfileTextures) below (final Map<Type, MinecraftProfileTexture> map = Maps.<Type, MinecraftProfileTexture>newHashMap();)
      */
     
+    static final String API_URL = "https://capesapi.com/api/";
+    static final int API_VERSION = 1;
+    
     /**
      * Downloads the Cape image from the Halfpetal Cape API and adds it to the skin map.
      *
@@ -25,7 +28,7 @@ public class Capes {
         try {
             String formattedUUID = formatUUID(gameProfile.getId());
 
-            skinMap.put(MinecraftProfileTexture.Type.CAPE, new MinecraftProfileTexture("https://capesapi.com/api/v1/" + formattedUUID + "/getCape", null));
+            skinMap.put(MinecraftProfileTexture.Type.CAPE, new MinecraftProfileTexture(buildURL() + formattedUUID + "/getCape", null));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,5 +44,9 @@ public class Capes {
     private static String formatUUID(UUID uuid) {
 
         return uuid.toString().replaceAll("-", "");
+    }
+    
+    private static String buildURL() {
+        return API_URL + "v" + API_VERSION + "/";
     }
 }
