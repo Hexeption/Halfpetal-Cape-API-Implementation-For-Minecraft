@@ -1,6 +1,12 @@
+package co.uk.hexeption.draco.capes;
+
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
+import net.minecraft.client.Minecraft;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
@@ -13,12 +19,9 @@ public class Capes {
      * To implement this into your client add Capes.getCapes(profile, map) in the SkinManager class
      * inside the (loadProfileTextures) below (final Map<Type, MinecraftProfileTexture> map = Maps.<Type, MinecraftProfileTexture>newHashMap();)
      */
-    
-    static final String API_URL = "https://capesapi.com/api/";
-    static final int API_VERSION = 1;
-    
+
     /**
-     * Downloads the Cape image from the Halfpetal Cape API and adds it to the skin map.
+     * Downloads the Cape image from the Cape API and adds it to the skin map.
      *
      * @param gameProfile
      * @param skinMap
@@ -28,7 +31,9 @@ public class Capes {
         try {
             String formattedUUID = formatUUID(gameProfile.getId());
 
-            skinMap.put(MinecraftProfileTexture.Type.CAPE, new MinecraftProfileTexture(buildURL() + formattedUUID + "/getCape", null));
+            skinMap.put(MinecraftProfileTexture.Type.CAPE, new MinecraftProfileTexture("https://capesapi.com/api/v1/" + formattedUUID + "/getCape", null));
+
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> emptyCache()));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,8 +50,18 @@ public class Capes {
 
         return uuid.toString().replaceAll("-", "");
     }
-    
-    private static String buildURL() {
-        return API_URL + "v" + API_VERSION + "/";
+
+    /**
+     * Clears Players Cape cache.
+     */
+    private static void emptyCache() {
+
+        File capes = new File(Minecraft.getMinecraft().mcDataDir, "assets/skins/");
+
+        try {
+            FileUtils.deleteDirectory(capes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
